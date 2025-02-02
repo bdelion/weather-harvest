@@ -239,7 +239,7 @@ Pour les versions disponibles, voir [les tags de ce projet].
 [qml]: https://sonarcloud.io/summary/new_code?id=bdelion_weather-harvest&branch=main 'Sonar main Dashboard'
 [qdb]: https://sonarcloud.io/api/project_badges/measure?project=bdelion_weather-harvest&branch=develop&metric=alert_status 'Sonar develop Quality Gate Status Badge'
 [qdl]: https://sonarcloud.io/summary/new_code?id=bdelion_weather-harvest&branch=develop 'Sonar develop Dashboard'
-[cclnpb]: https://github.com/bdelion/weather-harvest/actions/workflows/cleanup-caches.yml/badge.svg
+[cclnpb]: https://github.com/bdelion/weather-harvest/actions/workflows/cleanup-cache.yml/badge.svg
 [cclnpl]: https://github.com/bdelion/weather-harvest/actions/workflows/cleanup-cache.yml
 [Make a README]: https://www.makeareadme.com/#template-1 'README Template et bonnes pratiques'
 [Node.js]: https://nodejs.org/
