@@ -1,0 +1,111 @@
+name: CI
+
+# Déclencheurs d'événements.
+# On peut préciser des branches ou des événements spécifiques pour mieux contrôler les exécutions.
+on: [push, pull_request]
+
+jobs:
+  # Job de construction et de tests
+  build-lint-test:
+    runs-on: ubuntu-latest # Exécution sur un runner Ubuntu
+
+    steps:
+      # Étape 1 : Récupérer le code source
+      - name: Checkout code
+        uses: actions/checkout@v4 # Utilisation de la dernière version stable de 'actions/checkout'
+
+      # Étape 2 : Mise en cache des dépendances npm pour accélérer les builds
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Étape 3 : Installer Node.js (version 18)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3 # Mise à jour vers la version 3 d'actions/setup-node
+        with:
+          node-version: '18'
+
+      # Étape 4 : Vérifier les versions de Node.js et npm
+      - name: Check versions
+        run: |
+          node -v
+          npm -v
+
+      # Étape 5 : Installer les dépendances via npm
+      - name: Install dependencies
+        run: npm ci
+
+      # Étape 6 : Linter le code et générer un rapport JSON
+      - name: Run ESLint
+        run: npm run lint
+
+      # Étape 7 : Télécharger le rapport ESLint
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-report
+          path: eslint-report/eslint-report.json
+          retention-days: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && 30 || 7 }}
+
+      # Étape 8 : Vérifier la conformité Prettier
+      - name: Check Prettier formatting
+        run: npm run prettier:check
+
+      # Étape 9 : Exécuter les tests et générer le rapport de couverture
+      - name: Run tests and generate coverage
+        run: npm test
+        continue-on-error: false # S'assurer que les tests échouent le job en cas d'échec
+
+      # Étape 10 : Télécharger le rapport de couverture
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4 # Télécharge les artefacts (ici, le rapport de couverture)
+        with:
+          name: coverage-report
+          path: coverage/lcov.info
+          retention-days: ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && 30 || 7 }}
+
+  # Job d'analyse SonarCloud
+  sonarqube:
+    name: Run SonarCloud analysis
+    runs-on: ubuntu-latest # Exécution sur un runner Ubuntu
+    needs: [build-lint-test] # Ce job dépend du job 'build', il s'exécute après celui-ci
+    if: success()
+
+    steps:
+      # Étape 1 : Récupérer le code source
+      - name: Checkout code
+        uses: actions/checkout@v4 # Encore une fois, utiliser la dernière version stable
+        with:
+          fetch-depth: 0 # Désactive le clonage superficiel pour une analyse plus complète
+
+      # Étape 2 : Télécharger le rapport ESLint généré par le job précédent
+      - name: Download ESLint report
+        uses: actions/download-artifact@v4
+        with:
+          name: eslint-report
+          path: ./eslint-report
+
+      # Étape 3 : Télécharger le rapport de couverture généré par le job précédent
+      - name: Download coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report
+          path: ./coverage # L'artefact sera téléchargé dans le dossier './coverage'
+
+      # Étape 4 : Vérifier l'existance de secrets.SONAR_TOKEN
+      - name: Verify Sonar Token
+        run: |
+          if [[ -z "${{ secrets.SONAR_TOKEN }}" ]]; then
+            echo "❌ ERROR: SONAR_TOKEN is missing!"
+            exit 1
+          fi
+
+      # Étape 5 : Lancer l'analyse SonarQube
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4.2.1 # Utilisation de l'action officielle de SonarQube
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Utilisation du token secret pour SonarCloud
