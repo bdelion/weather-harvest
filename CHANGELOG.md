@@ -1,19 +1,13 @@
 # Changelog
 
-> NOTE : Le format est basé sur [Keep a Changelog], et ce projet respecte [Semantic Versioning].
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-Tous les changements notables de ce projet seront documentés dans ce fichier.
+### 1.0.1 (2025-02-03)
 
-## [Unreleased]
 
-### Ajouté
+### Bug Fixes
 
-- Script CLI de base pour la collecte de données météo avec options personnalisables.
-- Génération automatique d'un fichier de configuration utilisateur (`config.json`) lors de la première exécution.
-
-### Modifié
-
-### Corrigé
+* Cache Cleanup badge in README ([b555c48](https://github.com/bdelion/weather-harvest/commit/b555c4812005a5620fdf87c7a0f5067bfc64620d))
 
 ## [1.0.0] - 2025-01-27
 
