@@ -16,7 +16,7 @@
     "format": "npm run prettier && npm run lint:fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --coverage --reporters=default --reporters=jest-html-reporters",
     "start": "node src/index.js",
     "validate": "npm run lint && npm test",
     "prepare": "husky"
@@ -49,6 +49,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^15.14.0",
     "husky": "^9.1.7",

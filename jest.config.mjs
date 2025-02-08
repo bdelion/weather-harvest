@@ -116,6 +116,8 @@ const config = {
       {
         publicPath: './coverage',
         filename: 'report.html',
+        expand: true, // Affiche le contenu des tests étendus par défaut
+        pageTitle: 'weather-harvest > Rapport de tests',
       },
     ],
   ],

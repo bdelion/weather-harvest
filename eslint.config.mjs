@@ -1,6 +1,7 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import pluginPrettier from 'eslint-plugin-prettier';
+import pluginNode from 'eslint-plugin-node';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -15,9 +16,11 @@ export default [
     plugins: {
       js: pluginJs,
       prettier: pluginPrettier,
+      node: pluginNode,
     },
     rules: {
       ...pluginJs.configs.recommended.rules, // Équivaut à "eslint:recommended"
+      ...pluginNode.configs.recommended.rules, // Règles recommandées pour Node.js
       'prettier/prettier': 'error', // Applique Prettier comme une erreur ESLint
       'no-console': 'warn', // Génère un avertissement si console.log est utilisé
       eqeqeq: 'error', // Exige l'utilisation de === et !== au lieu de == et !=
