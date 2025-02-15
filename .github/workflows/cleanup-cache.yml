@@ -1,4 +1,5 @@
 name: cleanup caches by a branch
+
 on:
   pull_request:
     types:
@@ -7,26 +8,33 @@ on:
 jobs:
   cleanup:
     runs-on: ubuntu-latest
+
     steps:
       # Étape 1 : Récupérer le code source
       - name: Checkout code
-        uses: actions/checkout@v4 # Encore une fois, utiliser la dernière version stable
+        uses: actions/checkout@v4 # Utiliser la dernière version stable de l'action de checkout
 
       # Étape 2 : Suppression du cache
       - name: Cleanup cache
         run: |
           echo "Fetching list of cache key"
+          echo "Branch: $BRANCH"
           cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id')
 
-          ## Setting this to not fail the workflow while deleting cache keys.
-          set +e
-          echo "Deleting caches..."
-          for cacheKey in $cacheKeysForPR
-          do
-              gh cache delete $cacheKey || echo "Failed to delete cache $cacheKey"
-          done
-          echo "Done"
+          if [ -z "$cacheKeysForPR" ]; then
+            echo "No caches found for branch: $BRANCH"
+          else
+            ## Setting this to not fail the workflow while deleting cache keys.
+            set +e
+            echo "Deleting caches..."
+            for cacheKey in $cacheKeysForPR
+            do
+                echo "Delete cache: $cacheKey"
+                gh cache delete $cacheKey
+            done
+            echo "Done"
+          fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
           GH_REPO: ${{ github.repository }}
           BRANCH: refs/pull/${{ github.event.pull_request.number }}/merge
