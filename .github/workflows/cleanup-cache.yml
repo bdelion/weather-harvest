@@ -8,7 +8,12 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Cleanup
+      # Étape 1 : Récupérer le code source
+      - name: Checkout code
+        uses: actions/checkout@v4 # Encore une fois, utiliser la dernière version stable
+
+      # Étape 2 : Suppression du cache
+      - name: Cleanup cache
         run: |
           echo "Fetching list of cache key"
           cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id')
@@ -18,7 +23,7 @@ jobs:
           echo "Deleting caches..."
           for cacheKey in $cacheKeysForPR
           do
-              gh cache delete $cacheKey
+              gh cache delete $cacheKey || echo "Failed to delete cache $cacheKey"
           done
           echo "Done"
         env:
