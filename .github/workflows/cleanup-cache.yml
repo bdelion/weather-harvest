@@ -24,18 +24,25 @@ jobs:
           GH_REPO: ${{ github.repository }}
 
       - name: Debug cache keys BRANCH 1
-        run: gh cache list --ref $BRANCH --limit 100 --json id,ref
+        run: gh cache list --ref $BRANCH1 --limit 100 --json id,ref
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
           GH_REPO: ${{ github.repository }}
-          BRANCH: refs/pull/${{ github.event.pull_request.number }}/head
+          BRANCH1: refs/pull/${{ github.event.pull_request.number }}/head
 
       - name: Debug cache keys BRANCH 2
-        run: gh cache list --ref $BRANCH --limit 100 --json id,ref
+        run: gh cache list --ref $BRANCH2 --limit 100 --json id,ref
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
           GH_REPO: ${{ github.repository }}
-          BRANCH: ${{ github.event.pull_request.head.ref }}
+          BRANCH2: ${{ github.event.pull_request.head.ref }}
+
+      - name: Debug cache keys BRANCH 3
+        run: gh cache list --ref $BRANCH3 --limit 100 --json id,ref
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
+          GH_REPO: ${{ github.repository }}
+          BRANCH3: refs/pull/${{ github.event.pull_request.number }}/merge
 
       # Étape 2 : Suppression du cache
       - name: Cleanup cache
