@@ -1,0 +1,66 @@
+name: Auto Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  auto-review:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # Donne le droit d'approuver les PRs
+      contents: read # Permet de lire le code source
+    if: github.actor == 'bdelion'
+    steps:
+      # Étape 1 : Récupérer le code source
+      - name: Checkout code
+        uses: actions/checkout@v4 # Utilisation de la dernière version stable de 'actions/checkout'
+
+      - name: Afficher l'acteur GitHub
+        run: |
+          echo "L'acteur GitHub est : $GITHUB_ACTOR"
+
+      # Étape 2 : Mise en cache des dépendances npm pour accélérer les builds
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Étape 3 : Installer Node.js (version 18)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3 # Mise à jour vers la version 3 d'actions/setup-node
+        with:
+          node-version: '18'
+
+      # Étape 4 : Vérifier les versions de Node.js et npm
+      - name: Check versions
+        run: |
+          node -v
+          npm -v
+
+      # Étape 5 : Installer les dépendances via npm
+      - name: Install dependencies
+        run: npm ci
+
+      # Étape 6 : Linter le code et générer un rapport JSON
+      - name: Run ESLint
+        run: npm run lint
+
+      # Étape 7 : Vérifier la conformité Prettier
+      - name: Check Prettier formatting
+        run: npm run prettier:check
+
+      # Étape 8 : Exécuter les tests et générer le rapport de couverture
+      - name: Run tests and generate coverage
+        run: npm test
+        continue-on-error: false # S'assurer que les tests échouent le job en cas d'échec
+
+      # Étape 9 : Exécuter l'auto approve
+      - name: Approve PR
+        if: ${{ success() }}
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: ${{ secrets.BOT_TOKEN }}
+          review-message: 'Auto approved automated PR'

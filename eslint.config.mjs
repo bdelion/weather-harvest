@@ -1,6 +1,7 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import pluginPrettier from 'eslint-plugin-prettier';
+import pluginN from 'eslint-plugin-n';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -15,12 +16,21 @@ export default [
     plugins: {
       js: pluginJs,
       prettier: pluginPrettier,
+      n: pluginN,
     },
     rules: {
       ...pluginJs.configs.recommended.rules, // Équivaut à "eslint:recommended"
+      ...pluginN.configs['recommended-module'].rules, // ⚡ Adapté aux projets en ESM
       'prettier/prettier': 'error', // Applique Prettier comme une erreur ESLint
       'no-console': 'warn', // Génère un avertissement si console.log est utilisé
       eqeqeq: 'error', // Exige l'utilisation de === et !== au lieu de == et !=
+    },
+  },
+  {
+    // Désactivation de la règle uniquement pour eslint.config.mjs
+    files: ['eslint.config.mjs'],
+    rules: {
+      'n/no-unpublished-import': 'off',
     },
   },
   {
