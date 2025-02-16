@@ -17,11 +17,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4 # Utiliser la dernière version stable de l'action de checkout
 
-      - name: Debug cache keys
+      - name: Debug cache keys global
         run: gh cache list --limit 100 --json id,ref
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
           GH_REPO: ${{ github.repository }}
+
+      - name: Debug cache keys BRANCH 1
+        run: gh cache list --ref $BRANCH --limit 100 --json id,ref
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
+          GH_REPO: ${{ github.repository }}
+          BRANCH: refs/pull/${{ github.event.pull_request.number }}/head
+
+      - name: Debug cache keys BRANCH 2
+        run: gh cache list --ref $BRANCH --limit 100 --json id,ref
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
+          GH_REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
 
       # Étape 2 : Suppression du cache
       - name: Cleanup cache
