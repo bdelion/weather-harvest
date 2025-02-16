@@ -42,7 +42,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
           GH_REPO: ${{ github.repository }}
-          BRANCH2: ${{ github.event.pull_request.head.ref }}
+          BRANCH2: refs/heads/${{ github.event.pull_request.head.ref }}
 
       # Étape 2 : Suppression du cache
       - name: Cleanup cache
