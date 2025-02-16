@@ -1,6 +1,9 @@
 name: cleanup caches by a branch
 
 on:
+  push:
+    branches:
+      - feature/29-fix-cleanup-cache
   pull_request:
     types:
       - closed
@@ -13,6 +16,12 @@ jobs:
       # Étape 1 : Récupérer le code source
       - name: Checkout code
         uses: actions/checkout@v4 # Utiliser la dernière version stable de l'action de checkout
+
+      - name: Debug cache keys
+        run: gh cache list --limit 100 --json id,ref
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
+          GH_REPO: ${{ github.repository }}
 
       # Étape 2 : Suppression du cache
       - name: Cleanup cache
