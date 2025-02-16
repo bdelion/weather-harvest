@@ -14,39 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4 # Utiliser la dernière version stable de l'action de checkout
 
-      - name: Debug cache keys global
-        run: gh cache list --limit 100 --json id,ref
-        env:
-          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
-          GH_REPO: ${{ github.repository }}
-
-      - name: Debug cache keys BRANCH 1
-        run: gh cache list --ref $BRANCH1 --limit 100 --json id,ref
-        env:
-          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
-          GH_REPO: ${{ github.repository }}
-          BRANCH1: refs/pull/${{ github.event.pull_request.number }}/head
-
-      - name: Debug cache keys BRANCH 3
-        run: gh cache list --ref $BRANCH3 --limit 100 --json id,ref
-        env:
-          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
-          GH_REPO: ${{ github.repository }}
-          BRANCH3: refs/pull/${{ github.event.pull_request.number }}/merge
-
-      - name: Debug cache keys BRANCH 2
-        run: gh cache list --limit 100 --ref "$BRANCH2"  --json id,ref
-        env:
-          GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
-          GH_REPO: ${{ github.repository }}
-          BRANCH2: refs/heads/${{ github.event.pull_request.head.ref }}
-
       # Étape 2 : Suppression du cache
       - name: Cleanup cache
         run: |
+          echo "PR Number is ${{ github.event.pull_request.number }}"
           echo "Fetching list of cache key"
           echo "Branch: $BRANCH"
           cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id')
+          echo "Found cache keys: $cacheKeysForPR"
 
           if [ -z "$cacheKeysForPR" ]; then
             echo "No caches found for branch: $BRANCH"
