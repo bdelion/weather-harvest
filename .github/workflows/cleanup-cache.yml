@@ -14,22 +14,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4 # Utiliser la dernière version stable de l'action de checkout
 
-      # Étape 2 : Suppression du cache
+      # Étape 2 : Vérification de la branche et suppression du cache
       - name: Cleanup cache
         run: |
           echo "PR Number is ${{ github.event.pull_request.number }}"
-          echo "Fetching list of cache key"
-          echo "Branch: $BRANCH"
-          cacheKeysForPR=$(gh cache list --ref $BRANCH --limit 100 --json id --jq '.[].id')
-          echo "Found cache keys: $cacheKeysForPR"
+          echo "Fetching list of cache keys"
+          echo "Feature branch: $FEATURE_BRANCH"
+          echo "PR merge branch: $PR_MERGE_BRANCH"
 
-          if [ -z "$cacheKeysForPR" ]; then
-            echo "No caches found for branch: $BRANCH"
+          # Condition pour ne pas nettoyer le cache des branches spécifiques comme "develop"
+          if [[ "$FEATURE_BRANCH" == *"develop"* ]]; then
+            echo "Skipping cache cleanup for feature branch: $FEATURE_BRANCH"
           else
-            ## Setting this to not fail the workflow while deleting cache keys.
-            set +e
-            echo "Deleting caches..."
-            for cacheKey in $cacheKeysForPR
+            # Suppression du cache pour la branche de la fonctionnalité
+            cacheKeysForFeatureBranch=$(gh cache list --ref $FEATURE_BRANCH --limit 100 --json id --jq '.[].id')
+            echo "Found cache keys for feature branch: $cacheKeysForFeatureBranch"
+
+            if [ -z "$cacheKeysForFeatureBranch" ]; then
+              echo "No caches found for feature branch: $FEATURE_BRANCH"
+            else
+              ## Setting this to not fail the workflow while deleting cache keys.
+              set +e
+              echo "Deleting caches for feature branch..."
+              for cacheKey in $cacheKeysForFeatureBranch
+              do
+                  echo "Delete cache: $cacheKey"
+                  gh cache delete $cacheKey
+              done
+              echo "Done"
+            fi
+          fi
+
+          # Suppression du cache pour la branche de merge de la PR
+          cacheKeysForPRMergeBranch=$(gh cache list --ref $PR_MERGE_BRANCH --limit 100 --json id --jq '.[].id')
+          echo "Found cache keys for PR merge branch: $cacheKeysForPRMergeBranch"
+
+          if [ -z "$cacheKeysForPRMergeBranch" ]; then
+            echo "No caches found for PR merge branch: $PR_MERGE_BRANCH"
+          else
+            echo "Deleting caches for PR merge branch..."
+            for cacheKey in $cacheKeysForPRMergeBranch
             do
                 echo "Delete cache: $cacheKey"
                 gh cache delete $cacheKey
@@ -39,4 +63,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS_CACHE }}
           GH_REPO: ${{ github.repository }}
-          BRANCH: refs/heads/${{ github.event.pull_request.head.ref }}
+          FEATURE_BRANCH: refs/heads/${{ github.event.pull_request.head.ref }}
+          PR_MERGE_BRANCH: refs/pull/${{ github.event.pull_request.number }}/merge
