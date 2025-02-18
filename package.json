@@ -18,7 +18,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --reporters=default --reporters=jest-html-reporters",
     "start": "node src/index.js",
-    "validate": "npm run lint && npm test",
+    "validate": "npm run lint && npm run test",
     "prepare": "husky"
   },
   "keywords": [
@@ -47,11 +47,11 @@
     "@eslint/js": "^9.20.0",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.20.0",
+    "eslint": "^9.20.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-n": "^17.15.1",
     "eslint-plugin-prettier": "^5.2.3",
-    "globals": "^15.14.0",
+    "globals": "^15.15.0",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-html-reporters": "^3.1.7",
