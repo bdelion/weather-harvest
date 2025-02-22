@@ -1,1 +1,4 @@
-npx --no-install commitlint --edit $1
+#!/bin/sh
+
+echo "🔍 Vérification du message de commit..."
+npx --no -- commitlint --edit $1
