@@ -28,11 +28,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # Étape 3 : Installer Node.js (version 18)
+      # Étape 3 : Installer Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3 # Mise à jour vers la version 3 d'actions/setup-node
         with:
-          node-version: '18'
+          node-version-file: .nvmrc
 
       # Étape 4 : Vérifier les versions de Node.js et npm
       - name: Check versions
