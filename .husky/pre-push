@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "🔍 Vérification avant push..."
+npm run test || (echo "❌ Les tests ont échoué. Corrige avant de pousser !" && exit 1)
