@@ -41,7 +41,7 @@ jobs:
 
       # Étape 6 : Linter le code et générer un rapport JSON
       - name: Run ESLint
-        run: npm run lint
+        run: npm run lint:report
 
       # Étape 7 : Télécharger le rapport ESLint
       - name: Upload ESLint report

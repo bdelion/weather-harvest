@@ -8,18 +8,26 @@
     "weather-harvest": "./src/index.js"
   },
   "scripts": {
+    "// --- 🛠️ Commit & Hooks ---": "",
     "commit": "cz",
-    "lint": "eslint --format json --output-file eslint-report/eslint-report.json .",
-    "lint:fix": "eslint --fix .",
+    "prepare": "husky",
+    "// --- 🔎 Linting ---": "",
+    "lint:js": "eslint \"**/*.js\" \"**/*.mjs\"",
+    "lint:md": "markdownlint \"**/*.md\" --ignore-path .markdownlintignore",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:md -- --fix",
+    "lint:report": "eslint --format json --output-file eslint-report/eslint-report.json .",
+    "lint": "npm run lint:js && npm run lint:md",
+    "// --- 🎨 Formatting ---": "",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
     "format": "npm run prettier && npm run lint:fix",
+    "// --- ✅ Tests ---": "",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --reporters=default --reporters=jest-html-reporters",
+    "// --- 🚀 Start & Validation ---": "",
     "start": "node src/index.js",
-    "validate": "npm run lint && npm run test",
-    "prepare": "husky"
+    "validate": "npm run lint && npm run test"
   },
   "keywords": [
     "cli",
@@ -49,12 +57,14 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.20.1",
     "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-markdown": "^5.1.0",
     "eslint-plugin-n": "^17.15.1",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^15.15.0",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-html-reporters": "^3.1.7",
+    "markdownlint-cli": "^0.44.0",
     "prettier": "^3.5.0"
   },
   "config": {
