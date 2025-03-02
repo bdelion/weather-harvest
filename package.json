@@ -1,6 +1,6 @@
 {
   "name": "weather-harvest",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha",
   "description": "Un script CLI en Node.js avec plusieurs commandes et options permettant de récolter des données météo",
   "main": "src/index.js",
   "type": "module",
@@ -10,7 +10,7 @@
   "scripts": {
     "// --- 🛠️ Commit & Hooks ---": "",
     "commit": "cz",
-    "prepare": "husky && husky install",
+    "prepare": "husky",
     "// --- 🔎 Linting ---": "",
     "lint:js": "eslint \"**/*.js\" \"**/*.mjs\"",
     "lint:md": "markdownlint \"**/*.md\" --ignore-path .markdownlintignore",
@@ -53,6 +53,9 @@
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@eslint/js": "^9.21.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.21.0",
@@ -66,7 +69,8 @@
     "jest-html-reporters": "^3.1.7",
     "lint-staged": "^15.4.3",
     "markdownlint-cli": "^0.44.0",
-    "prettier": "^3.5.2"
+    "prettier": "^3.5.2",
+    "semantic-release": "^24.2.3"
   },
   "config": {
     "commitizen": {
