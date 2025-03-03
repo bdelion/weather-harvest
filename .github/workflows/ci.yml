@@ -133,6 +133,8 @@ jobs:
       # Étape 3 : Installer les dépendances via npm
       - name: Install dependencies
         run: npm ci
+        env:
+          CI: true  # Assurez-vous que CI est défini ici pour éviter les questions de confirmation
 
       # Étape 4 : Vérifier l'existence de GITHUB_TOKEN
       - name: Verify GitHub Token
