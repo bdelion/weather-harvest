@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD024 -->
+
 # Changelog
 
 > NOTE : Le format est basé sur [Keep a Changelog], et ce projet respecte [Semantic Versioning].
@@ -41,6 +43,6 @@ Tous les changements notables de ce projet seront documentés dans ce fichier.
 <!-- liens -->
 
 [Keep a Changelog]: https://keepachangelog.com/fr/1.0.0/ 'CHANGELOG Template et bonnes pratiques'
-[Semantic Versioning]: https://semver.org/lang/fr/ 'Bonnes pratique de la Gestion de Version'
+[Semantic Versioning]: https://semver.org/lang/fr/ 'Bonnes pratiques de la Gestion de Version'
 [Unreleased]: https://github.com/bdelion/weather-harvest/compare/1.0.0...develop 'Comparaison de la dernière version avec la future'
 [1.0.0]: https://github.com/bdelion/weather-harvest/releases/tag/1.0.0
