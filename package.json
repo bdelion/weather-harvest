@@ -27,7 +27,9 @@
     "test:coverage": "jest --coverage --reporters=default --reporters=jest-html-reporters",
     "// --- 🚀 Start & Validation ---": "",
     "start": "node src/index.js",
-    "validate": "npm run lint && npm run test"
+    "validate": "npm run lint && npm run test",
+    "// --- ⚙️ Build ---": "",
+    "build": "mkdir -p dist && zip -r dist/weather-harvest.zip src/*"
   },
   "keywords": [
     "cli",
