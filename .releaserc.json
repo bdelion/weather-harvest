@@ -33,7 +33,12 @@
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
+    {
+      "path": "@semantic-release/changelog",
+      "changelogFile": "CHANGELOG.md",
+      "template": "./config/changelog-template.hbs",
+      "prepare": "./config/changelog-prepare.js"
+    },
     [
       "@semantic-release/git",
       {
