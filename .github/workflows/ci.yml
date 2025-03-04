@@ -133,8 +133,6 @@ jobs:
       # Étape 3 : Installer les dépendances via npm
       - name: Install dependencies
         run: npm ci
-        env:
-          CI: true # Assurez-vous que CI est défini ici pour éviter les questions de confirmation
 
       # Étape 4 : Vérifier l'existence de GITHUB_TOKEN
       - name: Verify GitHub Token
@@ -148,8 +146,18 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # Étape 6 : Exécuter Semantic Release
+      # Étape 6 : Désactiver les hooks Husky
+      - name: Disable Husky hooks
+        run: |
+          npx husky disable
+
+      # Étape 7 : Exécuter Semantic Release
       - name: Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
+
+      # Étape 8 : Réactiver les hooks Husky (si nécessaire)
+      - name: Enable Husky hooks
+        run: |
+          npx husky enable
