@@ -1,3 +1,15 @@
+# 1.0.0-snapshot.1 (2025-03-04)
+
+
+### Bug Fixes
+
+* Cache Cleanup badge in README ([b555c48](https://github.com/bdelion/weather-harvest/commit/b555c4812005a5620fdf87c7a0f5067bfc64620d))
+
+
+### Features
+
+* **commit:** configure Commitizen, Husky, et lint-staged ([39257a7](https://github.com/bdelion/weather-harvest/commit/39257a76cd8d96ddb9f74f337d1eb5a49c7701f5)), closes [#47](https://github.com/bdelion/weather-harvest/issues/47)
+
 <!-- markdownlint-disable MD024 -->
 
 # Changelog
