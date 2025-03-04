@@ -4,49 +4,38 @@
 
 Tous les changements notables de ce projet seront documentés dans ce fichier.
 
+{{#if versions}}
 ## [Unreleased]
+{{#each commits}}
+{{#if isBreaking}}### BREAKING CHANGE{{/if}}
+- {{message}}
+{{/each}}
+
+{{#each versions}}
+## [{{this.version}}] - {{datetime this.date format="YYYY-MM-DD"}}
 
 ### Ajouté
-{{#each added}}
+{{#each this.added}}
 - {{this}}
 {{/each}}
 
 ### Modifié
-{{#each changed}}
+{{#each this.changed}}
 - {{this}}
 {{/each}}
 
 ### Corrigé
-{{#each fixed}}
+{{#each this.fixed}}
 - {{this}}
 {{/each}}
 
-## [{{version}}] - {{date}}
-
-### Ajouté
-{{#each added}}
-- {{this}}
-{{/each}}
-
-### Modifié
-{{#each changed}}
-- {{this}}
-{{/each}}
-
-### Corrigé
-{{#each fixed}}
-- {{this}}
-{{/each}}
-
+{{#if @root.linkReferences}}
 <!-- liens -->
-
-[Keep a Changelog]: https://keepachangelog.com/fr/1.0.0/ "CHANGELOG Template et bonnes pratiques"
-[Semantic Versioning]: https://semver.org/lang/fr/ "Bonnes pratiques de la Gestion de Version"
-[Unreleased]: https://github.com/USER/PROJECT/compare/{{lastRelease}}...develop "Comparaison de la dernière version avec la future"
-{{#if isFirstVersion}}
-  <!-- Condition pour la première version -->
-  [{{version}}]: https://github.com/USER/PROJECT/releases/tag/{{version}}
+{{#each references}}
+[{{@root.version}}]: {{url}} "Comparaison de la dernière version avec la future"
+{{/each}}
+{{/if}}
+{{/each}}
 {{else}}
-  <!-- Pour les versions suivantes -->
-  [{{version}}]: https://github.com/bdelion/weather-harvest/compare/{{previousVersion}}...{{version}} "Comparaison de la dernière version avec la future"
+## [Unreleased]
 {{/if}}
