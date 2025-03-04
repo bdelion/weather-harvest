@@ -2,7 +2,10 @@ module.exports = (releaseNotes, context) => {
   // Exclude merge commits from release notes
   const filteredReleaseNotes = releaseNotes
     .split('\n')
-    .filter(line => !line.includes('Merge pull request') && !line.includes('Merge branch'))
+    .filter(
+      (line) =>
+        !line.includes('Merge pull request') && !line.includes('Merge branch')
+    )
     .join('\n');
 
   // Définir previousVersion à partir de la version précédente
