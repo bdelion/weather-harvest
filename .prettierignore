@@ -12,3 +12,6 @@ coverage/
 # Configs et environnement
 *.log
 .env
+
+# Templates
+*.hbs
