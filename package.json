@@ -1,11 +1,11 @@
 {
-  "name": "weather-harvest",
+  "name": "@bdelion/weather-harvest",
   "version": "1.0.0-alpha",
   "description": "Un script CLI en Node.js avec plusieurs commandes et options permettant de récolter des données météo",
   "main": "src/index.js",
   "type": "module",
   "bin": {
-    "weather-harvest": "./src/index.js"
+    "weather-harvest": "src/index.js"
   },
   "scripts": {
     "// --- 🛠️ Commit & Hooks ---": "",
