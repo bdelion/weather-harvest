@@ -1,6 +1,6 @@
 {
-  "name": "weather-harvest",
-  "version": "1.0.0-alpha",
+  "name": "@bdelion/weather-harvest",
+  "version": "0.0.0-development",
   "description": "Un script CLI en Node.js avec plusieurs commandes et options permettant de récolter des données météo",
   "main": "src/index.js",
   "type": "module",
@@ -27,7 +27,8 @@
     "test:coverage": "jest --coverage --reporters=default --reporters=jest-html-reporters",
     "// --- 🚀 Start & Validation ---": "",
     "start": "node src/index.js",
-    "validate": "npm run lint && npm run test"
+    "validate": "npm run lint && npm run test",
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "cli",
@@ -40,7 +41,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bdelion/weather-harvest.git"
+    "url": "https://github.com/bdelion/weather-harvest.git"
   },
   "bugs": {
     "url": "https://github.com/bdelion/weather-harvest/issues"
