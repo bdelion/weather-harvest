@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD024 -->
+
 # Changelog
 
 > NOTE : Le format est basé sur [Keep a Changelog], et ce projet respecte [Semantic Versioning].
