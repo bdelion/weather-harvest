@@ -4,38 +4,58 @@
 
 Tous les changements notables de ce projet seront documentés dans ce fichier.
 
-{{#if versions}}
+{{#if unreleased}}
 ## [Unreleased]
 {{#each commits}}
-{{#if isBreaking}}### BREAKING CHANGE{{/if}}
-- {{message}}
-{{/each}}
-
-{{#each versions}}
-## [{{this.version}}] - {{datetime this.date format="YYYY-MM-DD"}}
-
+  {{#if (eq type "feat")}}
 ### Ajouté
-{{#each this.added}}
-- {{this}}
-{{/each}}
-
-### Modifié
-{{#each this.changed}}
-- {{this}}
-{{/each}}
-
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "fix")}}
 ### Corrigé
-{{#each this.fixed}}
-- {{this}}
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "perf")}}
+### 🚀 Performance
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "ci")}}
+### 🚀 CI/CD
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "chore")}}
+### 🛠 Maintenance
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
+
+{{#each releases}}
+## [{{version}}] - {{date}}
+{{#each commits}}
+  {{#if (eq type "feat")}}
+### Ajouté
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "fix")}}
+### Corrigé
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "perf")}}
+### 🚀 Performance
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "ci")}}
+### 🚀 CI/CD
+- {{subject}}
+  {{/if}}
+  {{#if (eq type "chore")}}
+### 🛠 Maintenance
+- {{subject}}
+  {{/if}}
+{{/each}}
 {{/each}}
 
-{{#if @root.linkReferences}}
 <!-- liens -->
-{{#each references}}
-[{{@root.version}}]: {{url}} "Comparaison de la dernière version avec la future"
-{{/each}}
-{{/if}}
-{{/each}}
-{{else}}
-## [Unreleased]
-{{/if}}
+[Keep a Changelog]: https://keepachangelog.com/fr/1.0.0/
+[Semantic Versioning]: https://semver.org/lang/fr/
