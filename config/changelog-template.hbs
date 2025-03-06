@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD024 -->
+
 # Changelog
 
 > NOTE : Le format est basé sur [Keep a Changelog], et ce projet respecte [Semantic Versioning].
@@ -6,65 +8,99 @@ Tous les changements notables de ce projet seront documentés dans ce fichier.
 
 {{#if unreleased}}
 ## [Unreleased]
+
+{{#if commits}}
+### Ajouté
 {{#each commits}}
   {{#if (eq type "feat")}}
-### Ajouté
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "fix")}}
-### Corrigé
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "perf")}}
-### 🚀 Performance
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "ci")}}
-### 🚀 CI/CD
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "chore")}}
-### 🛠 Maintenance
 - {{subject}}
   {{/if}}
 {{/each}}
+{{/if}}
+
+{{#if modifiedCommits}}
+### Modifié
+{{#each modifiedCommits}}
+  {{#if (eq type "refactor")}}
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
+
+{{#if fixedCommits}}
+### Corrigé
+{{#each fixedCommits}}
+  {{#if (eq type "fix")}}
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
 {{/if}}
 
 {{#each releases}}
 ## [{{version}}] - {{date}}
+
+{{#if commits}}
+### Ajouté
 {{#each commits}}
   {{#if (eq type "feat")}}
-### Ajouté
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "fix")}}
-### Corrigé
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "perf")}}
-### 🚀 Performance
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "ci")}}
-### 🚀 CI/CD
-- {{subject}}
-  {{/if}}
-  {{#if (eq type "chore")}}
-### 🛠 Maintenance
 - {{subject}}
   {{/if}}
 {{/each}}
-{{/each}}
+{{/if}}
 
-{{#if @root.linkReferences}}
-<!-- liens -->
-[Keep a Changelog]: https://keepachangelog.com/fr/1.0.0/
-[Semantic Versioning]: https://semver.org/lang/fr/
-{{#each references}}
-[{{@root.version}}]: {{url}} "Comparaison de la dernière version avec la future"
+{{#if modifiedCommits}}
+### Modifié
+{{#each modifiedCommits}}
+  {{#if (eq type "refactor")}}
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
+
+{{#if fixedCommits}}
+### Corrigé
+{{#each fixedCommits}}
+  {{#if (eq type "fix")}}
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
+
+{{#if performanceCommits}}
+### 🚀 Performance
+{{#each performanceCommits}}
+  {{#if (eq type "perf")}}
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
+
+{{#if ciCommits}}
+### 🚀 CI/CD
+{{#each ciCommits}}
+  {{#if (eq type "ci")}}
+- {{subject}}
+  {{/if}}
+{{/each}}
+{{/if}}
+
+{{#if maintenanceCommits}}
+### 🛠 Maintenance
+{{#each maintenanceCommits}}
+  {{#if (eq type "chore")}}
+- {{subject}}
+  {{/if}}
 {{/each}}
 {{/if}}
 {{/each}}
-{{else}}
-## [Unreleased]
+
+<!-- liens -->
+[Keep a Changelog]: https://keepachangelog.com/fr/1.0.0/ 'CHANGELOG Template et bonnes pratiques'
+[Semantic Versioning]: https://semver.org/lang/fr/ 'Bonnes pratique de la Gestion de Version'
+[Unreleased]: https://github.com/bdelion/weather-harvest/compare/{{latestVersion}}...develop 'Comparaison de la dernière version avec la future'
+{{#if @root.linkReferences}}
+{{#each references}}
+[{{version}}]: {{url}} "Comparaison de la dernière version avec la future"
+{{/each}}
 {{/if}}
