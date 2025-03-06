@@ -1,11 +1,15 @@
 // Pour plus d'informations: https://semantic-release.gitbook.io/semantic-release/usage/configuration
 
-import fs from 'fs'
-import Handlebars from 'handlebars'
-
 /**
  * @type {import('semantic-release').GlobalConfig}
  */
+
+import fs from 'fs';
+
+// Chargement des fichiers Handlebars
+const mainTemplate = fs.readFileSync('./config/changelog-template.hbs', 'utf8');
+
+// Configuration de semantic-release
 export default {
   branches: [
     { name: 'feature/add-semantic-version-configuration', prerelease: 'alpha' },
@@ -19,7 +23,14 @@ export default {
   tagFormat: '${version}',
   plugins: [
     '@semantic-release/commit-analyzer',
-    '@semantic-release/release-notes-generator',
+    [
+      '@semantic-release/release-notes-generator',
+      {
+        writerOpts: {
+          mainTemplate: mainTemplate,
+        },
+      },
+    ],
     [
       '@semantic-release/changelog',
       {
@@ -28,9 +39,7 @@ export default {
           '# Changelog\n\n> NOTE : Le format est basé sur [Keep a Changelog], et ce projet respecte [Semantic Versioning].\n\nTous les changements notables de ce projet seront documentés dans ce fichier.',
         writerOpts: {
           generateOn: 'both',
-          template: Handlebars.compile(
-            fs.readFileSync('./config/changelog-template.hbs', 'utf-8')
-          ),
+          mainTemplate: mainTemplate,
           commitsSort: ['subject', 'scope'],
         },
       },
